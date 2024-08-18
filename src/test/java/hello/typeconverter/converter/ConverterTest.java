@@ -33,6 +33,9 @@ public class ConverterTest {
 
     @Test
     public void ipPortToString() {
-
+        IpPortToStringConverter converter = new IpPortToStringConverter();
+        IpPort source = new IpPort("127.0.0.1", 8080);
+        String result = converter.convert(source);
+        assertThat(result).isEqualTo("127.0.0.1:8080");
     }
 }
