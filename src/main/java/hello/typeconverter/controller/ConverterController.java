@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ConverterController {
@@ -17,9 +18,26 @@ public class ConverterController {
         return "converter-view";
     }
 
+    @GetMapping("/converter/edit")
+    public String converterForm(Model model) {
+        IpPort ipPort = new IpPort("127.0.0.1", 8080);
+        Form form = new Form(ipPort);
+        model.addAttribute("form", form);
+        return "converter-form";
+    }
+
+    @PostMapping("/converter/edit")
+    public String converterEdit(@ModelAttribute Form form, Model model) {
+        IpPort ipPort = form.getIpPort();
+        System.out.println("1번 : " + ipPort.getIp());
+        System.out.println("2번 : " + ipPort.getPort());
+        model.addAttribute("ipPort", ipPort);
+        return "converter-view";
+    }
+
 
     @Data
-    static class Form{
+    static class Form {
         private IpPort ipPort;
 
         public Form(IpPort ipPort) {
